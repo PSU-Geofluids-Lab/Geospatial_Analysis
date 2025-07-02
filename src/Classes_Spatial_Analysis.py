@@ -2,6 +2,7 @@ import matplotlib.pylab as plt
 import gc
 import numpy as np
 from scipy.optimize import minimize
+import pandas as pd
 
 # Zhe Z-score corresponding to the desired confidence level is calculated using a standard normal distribution (also known as a Z-distribution).
 # The Z-distribution is a normal distribution with a mean of 0 and a standard deviation of 1. The Z-score is the number of standard deviations from the mean that a value is.
@@ -504,7 +505,14 @@ def base_analysis_single(measurement_error,tau_target,var_Ca,var_Ti,num_samples,
         'CI_cum_std_tau': CI_cum_std_tau_filtered,
         'filter_indx':filter_indx
     }
-    return Xf, Xwf,tau_estimate, results,results_filtered
+    results_df = pd.DataFrame({
+        'Xf': Xf,
+        'Xwf': Xwf,
+        'Xs':1-Xf-Xwf,
+        'resfit': res_fit,
+        'tau_estimate': tau_estimate
+    })
+    return results_df, results,results_filtered
 
 def base_analysis_pool(measurement_error,tau_target,var_Ca,var_Ti,soil_params,feed_params,weathered_params,
                        num_pooling_per_sample_unit,num_sample_units,num_actual_samples_per_sample_unit,use_std,filter_choice='threshold'):
@@ -678,7 +686,15 @@ def base_analysis_pool(measurement_error,tau_target,var_Ca,var_Ti,soil_params,fe
         'CI_cum_std_tau': CI_cum_std_tau_filtered,
         'filter_indx':filter_indx
     }
-    return Xf, Xwf,tau_estimate, results,results_filtered
+
+    results_df = pd.DataFrame({
+        'Xf': Xf,
+        'Xwf': Xwf,
+        'Xs':1-Xf-Xwf,
+        'resfit': res_fit,
+        'tau_estimate': tau_estimate
+    })
+    return results_df, results,results_filtered
 
 def cost_analysis(cum_avg_tau,cum_std_tau,feed_params,
                   Integrated_application_Tons_basalt= 1000.0,
