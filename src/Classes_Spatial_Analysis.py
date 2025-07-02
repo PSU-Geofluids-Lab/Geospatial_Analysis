@@ -19,7 +19,7 @@ Z_score_dict = {
 }
 
 def make_soil_samples_Pooling(measurement_error,  num_pooling_per_sample_unit, num_sample_units,num_actual_samples_per_sample_unit,
-                              var_Ca, var_Ti, tau_target, soil_params, feed_params, weathered_params,added_var = 0.05):
+                              var_Ca, var_Ti, tau_target, soil_params, feed_params, weathered_params,added_var = 0.0):
     #% tau = Xwf / (Xwf + Xf)    
     #% Xwf = tau * Xf / (1 - tau)
     """
@@ -113,7 +113,6 @@ def make_soil_samples_Pooling(measurement_error,  num_pooling_per_sample_unit, n
     j_mix_noisy = j_mix + np.random.normal(0, j_mix_err, size=j_mix.shape)
     i_mix_noisy = i_mix + np.random.normal(0, i_mix_err, size=i_mix.shape)
     return soil_j_noisy,soil_i_noisy, j_mix_noisy, i_mix_noisy
-
 
 def make_soil_samples(measurement_error,var_Ca, var_Ti, tau_target, num_samples, soil_params, feed_params, weathered_params):
     #% tau = Xwf / (Xwf + Xf)    
@@ -576,7 +575,7 @@ def base_analysis_pool(measurement_error,tau_target,var_Ca,var_Ti,soil_params,fe
 
     ###################################################
     Tau_vals_test = np.linspace(0.01,0.9,200)
-    Xwf_vals_test = np.linspace(0.001,0.05,200)
+    Xwf_vals_test = np.linspace(0.001,0.9,200)
     Tau_test_all,X_wf_test_all = np.meshgrid(Tau_vals_test,Xwf_vals_test)
     Tau_test_all = Tau_test_all.flatten()
     X_wf_test_all = X_wf_test_all.flatten()
